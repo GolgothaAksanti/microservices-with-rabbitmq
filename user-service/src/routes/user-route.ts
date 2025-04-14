@@ -10,7 +10,7 @@ router.post("/register", async (req, res) => {
   const connection = await amqp.connect("amqp://localhost");
   const channel = await connection.createChannel();
 
-  const publisher = new UserCreatedPublisher(channel, "user_created");
+  const publisher = new UserCreatedPublisher(channel);
   await publisher.publish(user);
 
   res.status(201).json({ message: "user created", user });

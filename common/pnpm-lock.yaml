@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  common: link:../../../../../.local/share/pnpm/global/5/node_modules/common
-
 importers:
 
   .:
@@ -14,9 +11,6 @@ importers:
       amqplib:
         specifier: ^0.10.7
         version: 0.10.7
-      common:
-        specifier: link:../../../../../.local/share/pnpm/global/5/node_modules/common
-        version: link:../../../../../.local/share/pnpm/global/5/node_modules/common
     devDependencies:
       '@types/amqplib':
         specifier: ^0.10.7

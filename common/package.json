@@ -15,12 +15,6 @@
     "typescript": "^5.8.3"
   },
   "dependencies": {
-    "amqplib": "^0.10.7",
-    "common": "link:../../../../../.local/share/pnpm/global/5/node_modules/common"
-  },
-  "pnpm": {
-    "overrides": {
-      "common": "link:../../../../../.local/share/pnpm/global/5/node_modules/common"
-    }
+    "amqplib": "^0.10.7"
   }
 }
