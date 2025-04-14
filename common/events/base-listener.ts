@@ -3,14 +3,24 @@ import { Event } from "./base-publisher";
 
 export abstract class BaseListener<T extends Event> {
   abstract subject: T["subject"];
+  abstract queueGroupName: string;
 
-  constructor(private channel: Channel, private queueName: string) {}
+  constructor(protected channel: Channel) {}
 
   async listen(callback: (data: T["data"]) => void) {
-    await this.channel.assertQueue(this.queueName, { durable: true });
-    console.log(`[Listener] waiting for event ${this.subject}`);
+    await this.channel.assertExchange(this.subject, "fanout", {
+      durable: false,
+    });
 
-    this.channel.consume(this.queueName, (msg: ConsumeMessage | null) => {
+    const q = await this.channel.assertQueue(this.queueGroupName, {
+      durable: false,
+    });
+
+    await this.channel.bindQueue(q.queue, this.subject, "");
+
+    console.log(`[Listener] Waiting for ${this.subject} on queue "${q.queue}"`);
+
+    this.channel.consume(q.queue, (msg: ConsumeMessage | null) => {
       if (msg) {
         const data = JSON.parse(msg.content.toString());
         callback(data);

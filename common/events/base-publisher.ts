@@ -1,6 +1,6 @@
+// base-publisher.ts
 import { Channel } from "amqplib";
 
-// Enforce the shape of the event
 export interface Event {
   subject: string;
   data: any;
@@ -9,13 +9,15 @@ export interface Event {
 export abstract class BasePublisher<T extends Event> {
   abstract subject: T["subject"];
 
-  constructor(private channel: Channel, private queueName: string) {}
+  constructor(private channel: Channel) {}
 
   async publish(data: T["data"]) {
-    await this.channel.sendToQueue(
-      this.queueName,
-      Buffer.from(JSON.stringify(data))
-    );
-    console.log(`[Publisher] Event ${this.subject} publisher`);
+    await this.channel.assertExchange(this.subject, "fanout", {
+      durable: false,
+    });
+
+    this.channel.publish(this.subject, "", Buffer.from(JSON.stringify(data)));
+
+    console.log(`[Publisher] Event ${this.subject} published`);
   }
 }

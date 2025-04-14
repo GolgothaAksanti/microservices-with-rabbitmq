@@ -4,9 +4,6 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
-overrides:
-  common: link:../../../../../.local/share/pnpm/global/5/node_modules/common
-
 importers:
 
   .:
@@ -17,9 +14,6 @@ importers:
       body-parser:
         specifier: ^2.2.0
         version: 2.2.0
-      common:
-        specifier: link:../../../../../.local/share/pnpm/global/5/node_modules/common
-        version: link:../../../../../.local/share/pnpm/global/5/node_modules/common
       express:
         specifier: ^5.1.0
         version: 5.1.0
